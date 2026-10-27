@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inteligencia Artificial, Herramientas y Futuro del Trabajo</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  /* Ink & paper system */
+  --ink:#17171E;
+  --paper:#F6F4EF;
+  --paper-2:#EDEAE2;
+  --muted:#5C5A66;
+  --line:#E0DDD3;
+  /* Per-class accents (cohesive, bold) */
+  --c1:#E63946; /* Clase 1 · rojo */
+  --c2:#F4A261; /* Clase 2 · naranja */
+  --c3:#2A9D8F; /* Clase 3 · teal */
+  --c4:#457B9D; /* Clase 4 · acero */
+  --c5:#E76F51; /* Clase 5 · coral */
+  --c6:#7C6A9E; /* Clase 6 · malva */
+  --c7:#3A86FF; /* Clase 7 · azul */
+  --c8:#8338EC; /* Clase 8 · púrpura */
+  --c9:#FFBE0B; /* Clase 9 · ámbar */
+  /* Aliases for existing references */
+  --blue:var(--c7);
+  --turq:var(--c3);
+  --coral:var(--c5);
+  --must:var(--c9);
+  --purple:var(--c8);
+  --ivory:var(--paper);
+  --dark:var(--ink);
+  --gray:var(--muted);
+  --light-gray:var(--line);
+  --radius:16px;
+  --radius-sm:10px;
+}
+html,body{height:100%;overflow:hidden}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--paper);
+  color:var(--ink);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.presentation{
+  width:100%;
+  max-width:1100px;
+  height:100vh;
+  max-height:700px;
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+}
+
+.slide-container{
+  flex:1;
+  position:relative;
+  overflow:hidden;
+}
+
+.slide{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  padding:48px 56px;
+  opacity:0;
+  transform:translateY(18px);
+  transition:opacity .5s ease, transform .5s ease;
+  pointer-events:none;
+}
+.slide.active{
+  opacity:1;
+  transform:translateY(0);
+  pointer-events:auto;
+}
+.slide.exit{
+  opacity:0;
+  transform:translateY(-18px);
+}
+
+.slide-inner{
+  width:100%;
+  max-width:900px;
+}
+
+/* Typography */
+h1,h2,h3,.card-title,.section-label,.class-badge,.step-num,.concept-circle{
+  font-family:'Space Grotesk',sans-serif;
+}
+h1{font-size:2.7rem;font-weight:700;line-height:1.1;letter-spacing:-.03em;margin-bottom:16px}
+h2{font-size:1.9rem;font-weight:600;line-height:1.15;letter-spacing:-.02em;margin-bottom:20px}
+h3{font-size:1.25rem;font-weight:600;margin-bottom:10px}
+.subtitle{font-size:1.15rem;font-weight:400;color:var(--muted);line-height:1.5;margin-bottom:8px}
+.body-text{font-size:.98rem;font-weight:400;color:var(--muted);line-height:1.65}
+.card-title{font-size:1.05rem;font-weight:600;margin-bottom:6px}
+
+/* Navigation */
+.nav-bar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:16px 8px 8px;
+  flex-shrink:0;
+}
+
+.nav-btn{
+  border:none;
+  background:transparent;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+  padding:6px 14px;
+  border-radius:20px;
+  font-family:'Inter',sans-serif;
+  font-size:.8rem;
+  font-weight:500;
+  color:var(--gray);
+  transition:all .25s ease;
+  letter-spacing:.01em;
+}
+.nav-btn:hover{color:var(--dark);background:rgba(0,0,0,.05)}
+.nav-btn:active{transform:scale(.96)}
+.nav-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+.progress-wrap{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.progress-bar{
+  width:180px;
+  height:4px;
+  background:var(--light-gray);
+  border-radius:4px;
+  overflow:hidden;
+}
+.progress-fill{
+  height:100%;
+  background:linear-gradient(135deg,var(--blue),var(--turq));
+  border-radius:4px;
+  transition:width .4s ease;
+}
+
+.slide-num{
+  font-size:.75rem;
+  font-weight:500;
+  color:var(--gray);
+  letter-spacing:.04em;
+  min-width:48px;
+  text-align:center;
+}
+
+/* Decorative shapes */
+.shape{position:absolute;pointer-events:none;z-index:0}
+.shape-circle{
+  border-radius:50%;
+  opacity:.12;
+}
+.shape-rect{
+  opacity:.07;
+  border-radius:var(--radius);
+}
+.shape-line{
+  height:2px;
+  border-radius:2px;
+  opacity:.1;
+}
+
+/* Card styles */
+.card{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:24px 28px;
+  box-shadow:0 1px 2px rgba(23,23,30,.04);
+  transition:transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+}
+.card:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(23,23,30,.06);border-color:var(--muted)}
+.card-grid{display:grid;gap:16px}
+.card-grid-2{grid-template-columns:1fr 1fr}
+.card-grid-3{grid-template-columns:repeat(3,1fr)}
+.card-grid-4{grid-template-columns:repeat(2,1fr)}
+
+/* Badge / Tag */
+.tag{
+  display:inline-block;
+  padding:4px 12px;
+  border-radius:20px;
+  font-size:.72rem;
+  font-weight:600;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+}
+.tag-blue{background:rgba(37,99,235,.1);color:var(--blue)}
+.tag-turq{background:rgba(20,184,166,.1);color:var(--turq)}
+.tag-coral{background:rgba(255,107,107,.1);color:var(--coral)}
+.tag-must{background:rgba(244,185,66,.1);color:#B8860B}
+.tag-purple{background:rgba(139,92,246,.1);color:var(--purple)}
+
+/* Step indicator */
+.step-num{
+  width:32px;height:32px;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.82rem;font-weight:700;
+  color:white;flex-shrink:0;
+}
+
+/* Horizontal flow */
+.flow{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.flow-item{
+  background:white;
+  border-radius:var(--radius-sm);
+  padding:16px 20px;
+  text-align:center;
+  box-shadow:0 1px 3px rgba(0,0,0,.06);
+  flex:1;min-width:140px;
+}
+
+/* Timeline */
+.timeline-item{
+  display:flex;gap:16px;
+  align-items:flex-start;
+  margin-bottom:12px;
+}
+.timeline-item:last-child{margin-bottom:0}
+
+/* Key concept circle */
+.concept-circle{
+  width:80px;height:80px;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  color:white;font-weight:700;font-size:.85rem;
+  text-align:center;line-height:1.2;
+  margin-bottom:10px;
+}
+
+/* Animation classes */
+.animate-in{opacity:0;transform:translateY(12px);transition:opacity .5s ease,transform .5s ease}
+.animate-in.visible{opacity:1;transform:translateY(0)}
+.delay-1{transition-delay:.1s}
+.delay-2{transition-delay:.2s}
+.delay-3{transition-delay:.3s}
+.delay-4{transition-delay:.4s}
+.delay-5{transition-delay:.5s}
+.delay-6{transition-delay:.6s}
+
+/* Cover specific */
+.cover-slide{text-align:center;align-items:center}
+.cover-slide h1{max-width:700px;margin-left:auto;margin-right:auto}
+.cover-slide .cover-sub{
+  max-width:500px;margin:0 auto;
+}
+
+/* Cover: una apertura clara con un acento visual amable */
+.cover-slide.cover-hero{
+  align-items:center;
+  justify-content:center;
+  padding:48px 56px;
+  overflow:hidden;
+  color:var(--ink);
+  text-align:left;
+  background:var(--paper);
+}
+.cover-hero::before{
+  content:'';
+  position:absolute;
+  width:310px;
+  height:310px;
+  right:-125px;
+  top:-145px;
+  border:1px solid rgba(42,157,143,.16);
+  border-radius:50%;
+}
+.cover-hero .slide-inner{
+  position:relative;
+  z-index:1;
+  display:grid;
+  grid-template-columns:minmax(0,1.2fr) minmax(230px,.8fr);
+  align-items:center;
+  gap:36px;
+  max-width:940px;
+}
+.cover-copy{position:relative;z-index:2}
+.cover-hero .section-label{
+  display:inline-flex;
+  align-items:center;
+  gap:9px;
+  margin-bottom:20px;
+  color:var(--c3)!important;
+  font-size:.72rem;
+}
+.cover-hero .section-label::before{
+  content:'';
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--c3);
+  transform:rotate(45deg);
+}
+.cover-hero h1{
+  max-width:620px;
+  margin:0 0 18px;
+  font-size:clamp(2.5rem,4.3vw,4.15rem);
+  line-height:1.04;
+  letter-spacing:-.05em;
+  text-wrap:balance;
+}
+.cover-hero h1 span{color:var(--c3)}
+.cover-hero .cover-sub{
+  max-width:420px;
+  margin:0;
+  color:var(--muted);
+  font-size:clamp(1rem,1.3vw,1.12rem);
+  line-height:1.55;
+}
+.cover-art{
+  position:relative;
+  z-index:1;
+  display:grid;
+  min-height:330px;
+  place-items:center;
+}
+.cover-art svg{width:min(100%,340px);overflow:visible}
+.cover-art .orbit{transform-origin:180px 180px;animation:orbit-turn 54s linear infinite}
+.cover-art .orbit:nth-child(2){animation-direction:reverse;animation-duration:68s}
+.cover-art .art-label{
+  position:absolute;
+  right:0;
+  bottom:4%;
+  color:var(--muted);
+  font-family:'Space Grotesk',sans-serif;
+  font-size:.72rem;
+  font-weight:500;
+  letter-spacing:.04em;
+}
+.cover-hero .shape{display:none}
+@keyframes orbit-turn{to{transform:rotate(360deg)}}
+
+/* Objective */
+.obj-icon{
+  width:56px;height:56px;
+  border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:14px;
+}
+
+/* Class slide header */
+.class-header{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin-bottom:28px;
+}
+.class-badge{
+  width:52px;height:52px;
+  border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;font-weight:700;
+  color:white;flex-shrink:0;
+  box-shadow:0 3px 0 rgba(23,23,30,.15);
+  clip-path:polygon(0 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%);
+}
+
+/* Activity card */
+.activity-card{
+  background:var(--ink);
+  color:white;
+  border-radius:var(--radius);
+  padding:28px 32px;
+  position:relative;
+  overflow:hidden;
+}
+.activity-card::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:5px;
+  background:linear-gradient(90deg,var(--c1),var(--c2),var(--c3),var(--c4),var(--c5),var(--c6),var(--c7),var(--c8),var(--c9));
+}
+.activity-card h3{color:white}
+.activity-card .body-text{color:rgba(255,255,255,.82)}
+
+/* Reflection */
+.reflection-card{
+  border:2px solid;
+  border-radius:var(--radius);
+  padding:24px 28px;
+}
+
+/* Concept map */
+.concept-map{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+  justify-content:center;
+  margin-top:16px;
+}
+
+/* Mini badge */
+.mini-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:6px 14px;
+  border-radius:20px;
+  font-size:.82rem;
+  font-weight:500;
+  background:rgba(0,0,0,.04);
+}
+
+/* Key hint */
+.key-hint{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:28px;
+  height:28px;
+  padding:0 8px;
+  border:1px solid var(--line);
+  border-bottom-width:3px;
+  border-radius:6px;
+  background:var(--paper);
+  font-family:'Space Grotesk',sans-serif;
+  font-size:.85rem;
+  font-weight:600;
+  color:var(--ink);
+}
+
+/* Connector arrows */
+.connector{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:8px 0;
+}
+
+/* Section label */
+.section-label{
+  font-size:.72rem;
+  font-weight:600;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  margin-bottom:6px;
+}
+
+/* List style */
+.styled-list{list-style:none;padding:0}
+.styled-list li{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  margin-bottom:8px;
+  font-size:.92rem;
+  color:var(--muted);
+  line-height:1.5;
+}
+.styled-list li::before{
+  content:'';
+  width:8px;height:8px;
+  border-radius:50%;
+  margin-top:6px;
+  flex-shrink:0;
+}
+.list-dot{
+  width:8px;height:8px;
+  border-radius:50%;
+  margin-top:6px;
+  flex-shrink:0;
+}
+
+/* Example rows (slide 2 of class) */
+.example-rows{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.example-row{
+  display:flex;
+  align-items:flex-start;
+  gap:14px;
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:var(--radius-sm);
+  padding:14px 18px;
+  transition:transform .25s ease, border-color .25s ease;
+}
+.example-row:hover{transform:translateX(4px);border-color:var(--muted)}
+.example-num{
+  width:30px;height:30px;
+  border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  color:white;font-weight:700;font-size:.85rem;
+  flex-shrink:0;
+  font-family:'Space Grotesk',sans-serif;
+}
+.example-body{flex:1}
+
+/* Big number backdrop */
+.shape-num{
+  position:absolute;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:16rem;
+  font-weight:700;
+  line-height:1;
+  opacity:.05;
+  top:50%;
+  right:6%;
+  transform:translateY(-50%);
+  pointer-events:none;
+  z-index:0;
+}
+
+/* Comparison */
+.comparison{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+.comparison-left{
+  background:rgba(37,99,235,.06);
+  border-radius:var(--radius);
+  padding:20px 24px;
+}
+.comparison-right{
+  background:rgba(20,184,166,.06);
+  border-radius:var(--radius);
+  padding:20px 24px;
+}
+
+/* Responsive */
+@media(max-width:768px){
+  .slide{padding:32px 28px}
+  h1{font-size:1.8rem}
+  h2{font-size:1.4rem}
+  .card-grid-2,.card-grid-3,.card-grid-4{grid-template-columns:1fr}
+  .flow{flex-direction:column}
+  .flow-item{min-width:auto}
+  .comparison{grid-template-columns:1fr}
+  .nav-btn{padding:6px 10px;font-size:.72rem}
+  .progress-bar{width:100px}
+  .cover-slide.cover-hero{padding:32px 28px}
+  .cover-hero .slide-inner{grid-template-columns:1fr;gap:0}
+  .cover-hero h1{font-size:clamp(2.35rem,8vw,3.6rem)}
+  .cover-art{position:absolute;inset:auto -6% -10% auto;width:36%;min-height:0;opacity:.22}
+  .cover-art .art-label{display:none}
+  .cover-hero .cover-sub{max-width:340px}
+}
+
+@media(max-width:480px){
+  .cover-slide.cover-hero{padding:28px 22px}
+  .cover-hero::before{
+    width:210px;
+    height:210px;
+    right:-125px;
+    top:-115px;
+  }
+  .cover-hero h1{font-size:clamp(2.15rem,10vw,3rem)}
+  .cover-hero .section-label{margin-bottom:18px}
+  .cover-art{position:absolute;width:24%;min-height:0;right:-3%;bottom:-21%;opacity:.14}
+  .cover-hero .cover-sub{max-width:280px;font-size:.96rem}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .cover-art .orbit{animation:none}
+}
+
+/* Fade stagger children */
+.stagger-children>*:not(.slide-inner){opacity:0;transform:translateY(10px);transition:opacity .45s ease, transform .45s ease}
+.stagger-children>*:not(.slide-inner).visible{opacity:1;transform:translateY(0)}
+
+/* Scrollbar hide */
+::-webkit-scrollbar{display:none}
+
+/* Focus */
+.nav-btn:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:20px}
+</style>
+</head>
+<body>
+
+<div class="presentation" id="presentation">
+  <div class="slide-container" id="slideContainer"></div>
+
+  <div class="nav-bar">
+    <button class="nav-btn" id="btnPrev" aria-label="Atrás" title="Atrás">
+      <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+      <span>Atrás</span>
+    </button>
+    <div class="progress-wrap">
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      <span class="slide-num" id="slideNum">01 / 00</span>
+    </div>
+    <button class="nav-btn" id="btnNext" aria-label="Adelante" title="Adelante">
+      <span>Adelante</span>
+      <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+const slides = [];
+
+// ===================== COVER =====================
+slides.push({
+  type:'cover',
+  render(){
+    return `<div class="slide cover-slide cover-hero active stagger-children">
+      <div class="slide-inner">
+        <div class="cover-copy">
+          <div class="section-label animate-in delay-1">Curso · 9 clases</div>
+          <h1 class="animate-in delay-2">Inteligencia Artificial,<br>Herramientas y<br>Futuro del Trabajo</h1>
+          <p class="subtitle cover-sub animate-in delay-3">Aprendé a usar IA como parte de tu proceso creativo y profesional.</p>
+        </div>
+        <div class="cover-art animate-in delay-3" aria-hidden="true">
+          <svg viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g class="orbit" stroke="rgba(42,157,143,.42)" stroke-width="1.5">
+              <ellipse cx="180" cy="180" rx="145" ry="58" transform="rotate(-38 180 180)"/>
+            </g>
+            <g class="orbit" stroke="rgba(23,23,30,.2)" stroke-width="1.5">
+              <ellipse cx="180" cy="180" rx="145" ry="58" transform="rotate(38 180 180)"/>
+            </g>
+            <circle cx="180" cy="180" r="78" fill="#EDEAE2"/>
+            <circle cx="180" cy="180" r="68" stroke="#2A9D8F" stroke-opacity=".38" stroke-width="1.5" stroke-dasharray="2 8"/>
+            <path d="M180 128L192 165L231 165L199 188L211 225L180 202L149 225L161 188L129 165L168 165L180 128Z" fill="#2A9D8F"/>
+            <circle cx="300" cy="102" r="7" fill="#FFBE0B"/>
+            <circle cx="65" cy="252" r="5" fill="#E76F51"/>
+            <rect x="278" y="278" width="12" height="12" transform="rotate(45 278 278)" fill="#457B9D"/>
+          </svg>
+          <span class="art-label">Curiosidad · criterio · creación</span>
+        </div>
+      </div>
+    </div>`
+  }
+});
+
+// ===================== OBJETIVO =====================
+slides.push({
+  type:'objective',
+  render(){
+    return `<div class="slide stagger-children">
+      <div class="slide-inner">
+        <div class="animate-in delay-1"><h2>🎯 Objetivo del curso</h2>
+          <p class="subtitle">Comprender, experimentar y aplicar herramientas de IA en tu vida profesional y personal.</p>
+        </div>
+        <div class="card-grid card-grid-3" style="margin-top:28px">
+          <div class="card animate-in delay-2">
+            <div class="obj-icon" style="background:rgba(58,134,255,.12)">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--c7)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M8 12l2 2 4-4"/></svg>
+            </div>
+            <h3 class="card-title">Comprender</h3>
+            <p class="body-text">Entender cómo funciona la IA, qué puede y qué no puede hacer.</p>
+          </div>
+          <div class="card animate-in delay-3">
+            <div class="obj-icon" style="background:rgba(42,157,143,.12)">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--c3)" stroke-width="2" stroke-linecap="round"><path d="M12 2l2.5 7h7l-5 4 2 7-6-5-6 5 2-7-5-4h7z"/></svg>
+            </div>
+            <h3 class="card-title">Experimentar</h3>
+            <p class="body-text">Probar herramientas reales con ejercicios guiados paso a paso.</p>
+          </div>
+          <div class="card animate-in delay-4">
+            <div class="obj-icon" style="background:rgba(131,56,236,.12)">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--c8)" stroke-width="2" stroke-linecap="round"><path d="M13 2L3 14h9v-4l8-8-4-2z"/></svg>
+            </div>
+            <h3 class="card-title">Aplicar</h3>
+            <p class="body-text">Integrar IA en tus flujos de trabajo con confianza y criterio.</p>
+          </div>
+        </div>
+        <div class="card animate-in delay-5" style="margin-top:20px;text-align:center;background:rgba(255,190,11,.1);border-color:rgba(255,190,11,.3)">
+          <p class="body-text" style="font-size:1.05rem;font-weight:500;color:var(--ink)">💡 No necesitas ser experto. Solo curiosidad y ganas de explorar.</p>
+        </div>
+      </div>
+      <div class="shape shape-circle" style="width:250px;height:250px;background:var(--c5);bottom:-60px;right:30px;opacity:.07"></div>
+    </div>`
+  }
+});
+
+// ===================== EVOLUCIÓN =====================
+slides.push({
+  type:'evolution',
+  render(){
+    const colors=['var(--c1)','var(--c2)','var(--c3)','var(--c4)','var(--c5)','var(--c6)','var(--c7)','var(--c8)','var(--c9)'];
+    const titles=['Fundación','Lenguaje','Contexto','Skills','Herramientas','Conectores','MCP','Agentes','Proyecto Final'];
+    const descs=['Conceptos base e idea de IA','Aprender a hablar con IA','Dar contexto profundo','Habilidades de prompt','Explorar herramientas','Flujos y conexiones','Protocolo de conexión','Automatización','Aplicación real'];
+    let html=`<div class="slide stagger-children"><div class="slide-inner">
+      <div class="animate-in delay-1"><h2>📈 Evolución del aprendizaje</h2>
+        <p class="subtitle">Un recorrido progresivo a lo largo de 9 clases</p></div>
+      <div style="margin-top:32px">`;
+    // Horizontal timeline
+    html+=`<div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:center">`;
+    for(let i=0;i<9;i++){
+      html+=`<div class="animate-in delay-${(i+2)%6}" style="flex:1;min-width:100px;max-width:160px;text-align:center">
+        <div style="width:48px;height:48px;border-radius:12px;background:${colors[i]};color:white;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.95rem;margin:0 auto 10px;box-shadow:0 3px 0 rgba(23,23,30,.12)">${i+1}</div>
+        <div class="card-title" style="font-size:.82rem;margin-bottom:2px">${titles[i]}</div>
+        <div style="font-size:.72rem;color:var(--muted);line-height:1.4">${descs[i]}</div>
+      </div>`;
+    }
+    html+=`</div>`;
+    // Connecting line
+    html+=`<div class="connector" style="margin-top:24px"><div style="width:100%;height:3px;background:linear-gradient(90deg,var(--c1),var(--c2),var(--c3),var(--c4),var(--c5),var(--c6),var(--c7),var(--c8),var(--c9));border-radius:3px;opacity:.35"></div></div>`;
+    html+=`</div></div>`;
+    html+=`<div class="shape shape-circle" style="width:180px;height:180px;background:var(--c9);top:10%;left:80px;opacity:.06"></div>`;
+    return html;
+  }
+});
+
+// ===================== KEY CONCEPTS =====================
+const concepts=[
+  {name:'Modelo',color:'var(--c7)',desc:'Es el "cerebro" detrás de la IA. Un modelo de lenguaje es un sistema entrenado para comprender y generar texto.',icon:'🧠'},
+  {name:'Prompt',color:'var(--c3)',desc:'Es el texto que le envías a la IA. La calidad del prompt define la calidad de la respuesta.',icon:'💬'},
+  {name:'Contexto',color:'var(--c9)',desc:'Información adicional que das para que la IA entienda mejor tu necesidad y dé respuestas precisas.',icon:'📋'},
+  {name:'Skill',color:'var(--c8)',desc:'Una habilidad específica que la IA puede hacer: resumir, traducir, analizar, escribir, diseñar.',icon:'⚡'},
+  {name:'Herramienta',color:'var(--c5)',desc:'El producto que usas para interactuar con el modelo: un chatbot, una app, una plataforma.',icon:'🛠️'},
+  {name:'Conector',color:'var(--c3)',desc:'Un puente que permite que dos herramientas hablen entre sí, creando flujos de trabajo.',icon:'🔗'},
+  {name:'MCP',color:'var(--c7)',desc:'Un protocolo estandarizado que permite que modelos y herramientas se conecten de forma segura.',icon:'📡'},
+  {name:'Agente',color:'var(--c8)',desc:'Un sistema que puede tomar decisiones, usar herramientas y realizar tareas complejas por sí mismo.',icon:'🤖'}
+];
+
+concepts.forEach(c=>{
+  slides.push({
+    type:'concept',
+    render(){
+      return `<div class="slide stagger-children">
+        <div class="slide-inner">
+          <div class="animate-in delay-1">
+            <div class="concept-circle" style="background:${c.color};width:64px;height:64px;font-size:1.5rem;margin-bottom:16px">${c.icon}</div>
+            <div class="section-label" style="color:${c.color}">Concepto clave</div>
+            <h2>${c.name}</h2>
+          </div>
+          <div class="card animate-in delay-2" style="margin-top:24px">
+            <p class="body-text" style="font-size:1.05rem;line-height:1.7">${c.desc}</p>
+          </div>
+          <div class="animate-in delay-3" style="margin-top:20px">
+            <span class="tag" style="background:${c.color}22;color:${c.color}">Concepto fundamental</span>
+          </div>
+        </div>
+        <div class="shape shape-circle" style="width:200px;height:200px;background:${c.color};bottom:-40px;right:20px;opacity:.07"></div>
+      </div>`;
+    }
+  });
+});
+
+// ===================== CLASS 1 =====================
+const c1 = 'var(--c1)';
+const c1Header = (title) => `
+  <div class="class-header">
+    <div class="class-badge" style="background:${c1}">1</div>
+    <div>
+      <div class="section-label" style="color:${c1}">Clase 1 · Descubro la IA</div>
+      <h2>${title}</h2>
+    </div>
+  </div>`;
+
+// 1. Qué es y qué no es la IA
+slides.push({
+  render(){
+    return `<div class="slide stagger-children">
+      <div class="slide-inner">
+        <div class="animate-in delay-1">${c1Header('¿Qué es y qué no es la IA?')}</div>
+        <div class="card animate-in delay-2" style="margin-bottom:20px;border-left:4px solid ${c1}">
+          <p class="body-text" style="font-size:1.02rem;line-height:1.7">La IA no es magia: es un sistema entrenado para reconocer patrones en datos y generar respuestas.</p>
+        </div>
+        <ul class="styled-list animate-in delay-3">
+          <li><span class="list-dot" style="background:${c1}"></span> Modelos de lenguaje entrenados con miles de millones de textos</li>
+          <li><span class="list-dot" style="background:${c1}"></span> Aprenden patrones, no "piensan" como humanos</li>
+          <li><span class="list-dot" style="background:${c1}"></span> Generan texto, imágenes, código y más</li>
+          <li><span class="list-dot" style="background:${c1}"></span> Funcionan probabilísticamente, no determinísticamente</li>
+        </ul>
+      </div>
+      <div class="shape shape-num" style="color:${c1}">1</div>
+      <div class="shape shape-circle" style="width:180px;height:180px;background:${c1};bottom:-40px;right:40px;opacity:.08"></div>
+    </div>`;
+  }
+});
+
+// 2. Breve historia de la IA
+slides.push({
+  render(){
+    return `<div class="slide stagger-children">
+      <div class="slide-inner">
+        <div class="animate-in delay-1">${c1Header('Breve historia de la IA')}</div>
+        <div class="card animate-in delay-2" style="margin-bottom:18px">
+          <p class="body-text" style="font-size:1.02rem;line-height:1.7">De los primeros algoritmos a los modelos generativos actuales.</p>
+        </div>
+        <div class="example-rows animate-in delay-3">
+          <div class="example-row"><div class="example-num" style="background:${c1}">1</div><div class="example-body"><div class="card-title" style="font-size:.9rem;margin-bottom:2px">1950s · Los inicios</div><p class="body-text" style="font-size:.88rem">Primeros algoritmos y la prueba de Turing: ¿puede una máquina pensar?</p></div></div>
+          <div class="example-row"><div class="example-num" style="background:${c1}">2</div><div class="example-body"><div class="card-title" style="font-size:.9rem;margin-bottom:2px">1960s-70s · Sistemas expertos</div><p class="body-text" style="font-size:.88rem">Programas que imitaban las decisiones de especialistas.</p></div></div>
+          <div class="example-row"><div class="example-num" style="background:${c1}">3</div><div class="example-body"><div class="card-title" style="font-size:.9rem;margin-bottom:2px">1990s-2000s · Aprendizaje automático</div><p class="body-text" style="font-size:.88rem">Las máquinas aprenden de los datos y mejoran con más información.</p></div></div>
+          <div class="example-row"><div class="example-num" style="background:${c1}">4</div><div class="example-body"><div class="card-title" style="font-size:.9rem;margin-bottom:2px">2010s · Deep learning</div><p class="body-text" style="font-size:.88rem">Redes neuronales que revolucionan el reconocimiento de imágenes y voz.</p></div></div>
+          <div class="example-row"><div class="example-num" style="background:${c1}">5</div><div class="example-body"><div class="card-title" style="font-size:.9rem;margin-bottom:2px">2020s · IA generativa</div><p class="body-text" style="font-size:.88rem">ChatGPT, Claude y otras herramientas que crean contenido nuevo.</p></div></div>
+        </div>
+      </div>
+      <div class="shape shape-circle" style="width:160px;height:160px;background:${c1};top:15%;left:60px;opacity:.06"></div>
+    </div>`;
+  }
+});
+
+// 3. IA generativa, algoritmos y automatización
+slides.push({
+  render(){
+    return `<div class="slide stagger-children">
+      <div class="slide-inner">
+        <div class="animate-in delay-1">${c1Header('IA generativa, algoritmos y automatización')}</div>
+        <div class="card animate-in delay-2" style="margin-bottom:18px">
+          <p class="body-text" style="font-size:1.02rem;line-height:1.7">Tres ideas clave para entender cómo actúa la IA hoy.</p>
+        </div>
+        <div class="example-rows animate-in delay-3">
+          <div class="example-row"><div class="example-num" style="background:${c1}">1</div><div class="example-body"><div class="card-title" style="font-size:.9rem;margin-bottom:2px">IA generativa</div><p class="body-text" style="font-size:.88rem">Crea contenido nuevo: texto, imágenes, audio y código a partir de un pedido.</p></div></div>
+          <div class="example-row"><div class="example-num" style="background:${c1}">2</div><div class="example-body"><div class="card-title" style="font-size:.9rem;margin-bottom:2px">Algoritmos</div><p class="body-text" style="font-size:.88rem">Conjuntos de pasos que procesan información y toman decisiones según reglas.</p></div></div>
+          <div class="example-row"><div class="example-num" style="background:${c1}">3</div><div class="example-body"><div class="card-title" style="font-size:.9rem;margin-bottom:2px">Automatización</div><p class="body-text" style="font-size:.88rem">Tareas repetitivas que se ejecutan solas, sin intervención humana constante.</p></div></div>
+        </div>
+      </div>
+      <div class="shape shape-circle" style="width:150px;height:150px;background:${c1};bottom:20px;right:30px;opacity:.07"></div>
+    </div>`;
+  }
+});
+
+// 4. Usos en educación, entretenimiento, redes sociales y trabajo
+slides.push({
+  render(){
+    return `<div class="slide stagger-children">
+      <div class="slide-inner">
+        <div class="animate-in delay-1">${c1Header('Usos de la IA en la vida cotidiana')}</div>
+        <div class="card animate-in delay-2" style="margin-bottom:18px">
+          <p class="body-text" style="font-size:1.02rem;line-height:1.7">La IA ya está presente en muchos ámbitos de tu día a día.</p>
+        </div>
+        <div class="example-rows animate-in delay-3">
+          <div class="example-row"><div class="example-num" style="background:${c1}">1</div><div class="example-body"><div class="card-title" style="font-size:.9rem;margin-bottom:2px">Educación</div><p class="body-text" style="font-size:.88rem">Asistentes para estudiar, resumir y explicar temas.</p></div></div>
+          <div class="example-row"><div class="example-num" style="background:${c1}">2</div><div class="example-body"><div class="card-title" style="font-size:.9rem;margin-bottom:2px">Entretenimiento</div><p class="body-text" style="font-size:.88rem">Recomendaciones de series, música y juegos.</p></div></div>
+          <div class="example-row"><div class="example-num" style="background:${c1}">3</div><div class="example-body"><div class="card-title" style="font-size:.9rem;margin-bottom:2px">Redes sociales</div><p class="body-text" style="font-size:.88rem">Filtros, contenido personalizado y moderación.</p></div></div>
+          <div class="example-row"><div class="example-num" style="background:${c1}">4</div><div class="example-body"><div class="card-title" style="font-size:.9rem;margin-bottom:2px">Trabajo</div><p class="body-text" style="font-size:.88rem">Redacción, análisis de datos y automatización de tareas.</p></div></div>
+        </div>
+      </div>
+      <div class="shape shape-circle" style="width:160px;height:160px;background:${c1};top:15%;left:60px;opacity:.06"></div>
+    </div>`;
+  }
+});
+
+// 5. Presentación de herramientas de IA
+slides.push({
+  render(){
+    return `<div class="slide stagger-children">
+      <div class="slide-inner">
+        <div class="animate-in delay-1">${c1Header('Herramientas de IA')}</div>
+        <div class="card animate-in delay-2" style="margin-bottom:18px">
+          <p class="body-text" style="font-size:1.02rem;line-height:1.7">Existen muchas herramientas. Hoy conoceremos algunas y elegiremos cuáles explorar.</p>
+        </div>
+        <div class="example-rows animate-in delay-3">
+          <div class="example-row"><div class="example-num" style="background:${c1}">1</div><div class="example-body"><div class="card-title" style="font-size:.9rem;margin-bottom:2px">ChatGPT</div><p class="body-text" style="font-size:.88rem">Asistente conversacional para texto, ideas y análisis.</p></div></div>
+          <div class="example-row"><div class="example-num" style="background:${c1}">2</div><div class="example-body"><div class="card-title" style="font-size:.9rem;margin-bottom:2px">Claude</div><p class="body-text" style="font-size:.88rem">Asistente conversacional con foco en textos largos y documentos.</p></div></div>
+          <div class="example-row"><div class="example-num" style="background:${c1}">3</div><div class="example-body"><div class="card-title" style="font-size:.9rem;margin-bottom:2px">Otras herramientas</div><p class="body-text" style="font-size:.88rem">Generación de imágenes, diseño, código y productividad.</p></div></div>
+        </div>
+      </div>
+      <div class="shape shape-circle" style="width:150px;height:150px;background:${c1};bottom:20px;right:30px;opacity:.07"></div>
+    </div>`;
+  }
+});
+
+// 6. Actividad grupal
+slides.push({
+  render(){
+    return `<div class="slide stagger-children">
+      <div class="slide-inner">
+        <div class="animate-in delay-1">${c1Header('Actividad grupal: explorar aplicaciones')}</div>
+        <div class="activity-card animate-in delay-2">
+          <div class="step-num" style="background:${c1};margin-bottom:10px">1</div>
+          <h3>📝 Actividad</h3>
+          <p class="body-text" style="color:rgba(255,255,255,.82);margin-top:8px">Vamos a explorar aplicaciones de IA y dar de alta nuestras cuentas. En grupos, creen sus cuentas o ingresen a las herramientas seleccionadas, prueben algunas funciones y registren qué permite hacer cada aplicación, qué resultado obtuvieron y qué les gustaría seguir explorando.</p>
+        </div>
+        <div class="reflection-card animate-in delay-3" style="border-color:${c1};margin-top:16px;background:rgba(255,190,11,.06)">
+          <div class="step-num" style="background:${c1};margin-bottom:10px">2</div>
+          <h3 style="color:${c1};font-size:.95rem">💭 Reflexión</h3>
+          <p class="body-text" style="font-size:.9rem;margin-top:6px">¿Qué herramienta te llamó más la atención? ¿Qué te gustaría probar en la próxima clase?</p>
+        </div>
+        <div class="card animate-in delay-4" style="margin-top:16px;border-left:4px solid ${c1}">
+          <div class="step-num" style="background:${c1};margin-bottom:10px">3</div>
+          <h3 style="color:${c1};font-size:.95rem">🎓 Aprendizaje esperado</h3>
+          <p class="body-text" style="font-size:.9rem;margin-top:6px">Conocerás opciones de IA y podrás elegir qué explorar a lo largo del curso.</p>
+        </div>
+      </div>
+      <div class="shape shape-circle" style="width:150px;height:150px;background:${c1};bottom:20px;right:30px;opacity:.07"></div>
+    </div>`;
+  }
+});
+
+// ===================== CLASS 2 =====================
+slides.push({
+  type:'class',
+  title:'Clase 2',
+  name:'El arte del prompt',
+  color:'var(--c2)',
+  slides:[
+    {
+      title:'¿Qué es un prompt?',
+      main:'Un prompt es la instrucción escrita que le das a la IA para que haga algo. Es el puente entre tu intención y lo que el modelo genera.',
+      items:[
+        'Es el "lenguaje" con el que te comunicas con la IA',
+        'Es una habilidad que se puede aprender y mejorar',
+        'Un buen prompt no garantiza una buena respuesta, pero la hace mucho más probable',
+        'La revisión humana sigue siendo clave: la respuesta puede sonar convincente y aun así ser imprecisa'
+      ]
+    },
+    {
+      title:'Estructura de un buen prompt',
+      main:'Combina estos elementos para obtener resultados consistentes.',
+      examples:[
+        {label:'Rol',desc:'"Actúa como un experto en marketing..."'},
+        {label:'Contexto',desc:'"Estoy preparando una presentación para inversores..."'},
+        {label:'Tarea',desc:'"Escribe un email de presentación..."'},
+        {label:'Formato',desc:'"Usa una lista con viñetas..."'},
+        {label:'Restricción',desc:'"Máximo 150 palabras y tono cercano..."'}
+      ]
+    },
+    {
+      title:'Qué hace que un prompt funcione',
+      main:'No se trata de usar palabras mágicas, sino de ser claro sobre qué necesita el modelo... y sobre qué necesita de él.',
+      items:[
+        'Concretar el objetivo: qué resultado querés exactamente',
+        'Dar contexto: para quién, para qué, en qué situación',
+        'Pedir formato: cómo querés la respuesta',
+        'Fijar restricciones: límites, tono y alcance',
+        'Revisar y repetir: el primer intento casi nunca es el final'
+      ]
+    },
+    {
+      title:'Técnicas de prompting',
+      main:'Pequeños ajustes que cambian el resultado de forma predecible.',
+      examples:[
+        {label:'Zero-shot',desc:'Pedís la tarea sin dar ejemplos. Buen punto de partida.'},
+        {label:'Few-shot',desc:'Mostrás 2 o 3 ejemplos del resultado esperado para que imite el patrón.'},
+        {label:'Chain of Thought',desc:'Pedís que piense paso a paso ante problemas con varios criterios.'},
+        {label:'System prompt',desc:'Definís el rol y las reglas del asistente, separado del pedido del usuario.'}
+      ]
+    },
+    {
+      title:'Prompt en el prompt, system aparte',
+      main:'En las apps reales conviene separar dos mensajes: cómo se comporta el asistente y qué se le pide.',
+      examples:[
+        {label:'System prompt',desc:'El rol, el tono y las reglas. Se configura una vez: "Sos un tutor paciente que responde simple".'},
+        {label:'Mensaje del usuario',desc:'La pregunta de cada consulta. Cambia todo el tiempo sin tocar el rol.'},
+        {label:'Por qué importa',desc:'Separarlos te permite cambiar la pregunta sin romper la personalidad del asistente.'}
+      ]
+    },
+    {
+      title:'Práctica: ingeniería de prompts',
+      main:'Vamos a probar las técnicas en vivo en un notebook de Google Colab, conectado a OpenRouter (una sola API para muchos modelos).',
+      items:[
+        'Cargás una API key de OpenRouter al inicio del notebook',
+        'Comparamos zero-shot, few-shot, Chain of Thought y system prompt',
+        'Cambiamos una sola cosa por vez y observamos la diferencia',
+        'Registramos qué técnica conviene para cada tipo de tarea'
+      ]
+    },
+    {
+      title:'Actividad propuesta',
+      main:'Aplicá las técnicas para resolver una tarea real de trabajo.',
+      activity:'Con el notebook abierto, elegí una tarea de tu trabajo (resumir, clasificar o redactar) y probala con al menos tres técnicas distintas: zero-shot, few-shot y prompt enmarcado con rol. Anotá qué cambió.',
+      reflection:'¿Qué técnica te dio el resultado más útil? ¿Cuándo conviene usar cada una?',
+      learning:'Sabrás elegir la técnica de prompting adecuada para cada tarea y revisar el resultado con criterio.'
+    }
+  ]
+});
+
+// ===================== CLASS 3 =====================
+slides.push({
+  type:'class',
+  title:'Clase 3',
+  name:'Contexto e instrucciones',
+  color:'var(--c3)',
+  slides:[
+    {
+      title:'El poder del contexto',
+      main:'La IA no sabe lo que tú sabes. El contexto le da el marco para entender mejor.',
+      items:[
+        'El contexto define el "por qué" detrás de tu pregunta',
+        'Puede incluir: audiencia, objetivo, restricciones',
+        'Cuanto más contexto, más precisa la respuesta',
+        'Es como dar instrucciones a un colega nuevo'
+      ]
+    },
+    {
+      title:'Ejemplo práctico',
+      main:'Comparación de cómo el contexto transforma una respuesta.',
+      examples:[
+        {label:'Sin contexto',desc:'"Escribe sobre el futuro del trabajo" → respuesta genérica'},
+        {label:'Con contexto',desc:'"Escribe un artículo breve sobre el futuro del trabajo para emprendedores que quieren usar IA, en tono inspirador" → respuesta dirigida'}
+      ]
+    },
+    {
+      title:'Actividad propuesta',
+      main:'Toma una respuesta genérica y enriquece el prompt con contexto.',
+      activity:'Pide a la IA que genere un plan de estudio, primero sin contexto y luego con contexto detallado.',
+      reflection:'¿Cómo cambia la calidad entre ambas respuestas?',
+      learning:'Desarrollarás sensibilidad para el nivel de detalle necesario.'
+    }
+  ]
+});
+
+// ===================== CLASS 4 =====================
+slides.push({
+  type:'class',
+  title:'Clase 4',
+  name:'Skills: habilidades de la IA',
+  color:'var(--c4)',
+  slides:[
+    {
+      title:'Skills: lo que la IA puede hacer',
+      main:'Más allá de "chatear", la IA tiene habilidades específicas que puedes activar.',
+      items:[
+        'Resumir y sintetizar información',
+        'Traducir entre idiomas y registros',
+        'Analizar datos y extraer conclusiones',
+        'Generar ideas y brainstorming creativo',
+        'Escribir y corregir textos',
+        'Crear código y debuggear'
+      ]
+    },
+    {
+      title:'Ejemplos prácticos',
+      main:'Cada skill se activa con una instrucción clara.',
+      examples:[
+        {label:'Resumir',desc:'"Resume este texto en 3 puntos clave"'},
+        {label:'Traducir',desc:'"Traduce al español manteniendo el tono profesional"'},
+        {label:'Analizar',desc:'"Extrae las 5 ideas principales de este documento"'},
+        {label:'Crear',desc:'"Genera 10 ideas para un proyecto de diseño web"'}
+      ]
+    },
+    {
+      title:'Actividad propuesta',
+      main:'Practica 3 skills diferentes con textos reales.',
+      activity:'Copia un texto y pídela que lo resuma, lo traduzca y lo analice.',
+      reflection:'¿Qué skills te resultaron más útiles? ¿Cuáles más difíciles?',
+      learning:'Reconocerás las habilidades más relevantes para tu día a día.'
+    }
+  ]
+});
+
+// ===================== CLASS 5 =====================
+slides.push({
+  type:'class',
+  title:'Clase 5',
+  name:'Explorando herramientas',
+  color:'var(--c5)',
+  slides:[
+    {
+      title:'El ecosistema de herramientas IA',
+      main:'Existen muchas herramientas. No necesitas usar todas, solo las que encajan con tu flujo.',
+      items:[
+        'Chatbots: ChatGPT, Claude, Gemini, Copilot',
+        'Diseño: Canva AI, Midjourney, DALL-E',
+        'Código: GitHub Copilot, Replit, Cursor',
+        'Productividad: Notion AI, Obsidian + IA'
+      ]
+    },
+    {
+      title:'Cómo elegir herramientas',
+      main:'La mejor herramienta es la que resuelve tu necesidad específica.',
+      examples:[
+        {label:'Para escribir',desc:'ChatGPT o Claude — buenos para texto'},
+        {label:'Para diseñar',desc:'Canva o Midjourney — visuales impactantes'},
+        {label:'Para organizar',desc:'Notion AI — gestión de información'},
+        {label:'Para automatizar',desc:'Make / Zapier + IA — flujos conectados'}
+      ]
+    },
+    {
+      title:'Actividad propuesta',
+      main:'Explora al menos 2 herramientas y compara sus interfaces.',
+      activity:'Prueba ChatGPT y Claude con el mismo prompt y nota las diferencias.',
+      reflection:'¿Cuál te pareció más intuitiva? ¿Qué output fue mejor?',
+      learning:'Desarrollarás criterio para elegir herramientas según la tarea.'
+    }
+  ]
+});
+
+// ===================== CLASS 6 =====================
+slides.push({
+  type:'class',
+  title:'Clase 6',
+  name:'Conectores y flujos',
+  color:'var(--c6)',
+  slides:[
+    {
+      title:'Conectar herramientas IA',
+      main:'Los conectores permiten que herramientas hablen entre sí y creen flujos automáticos.',
+      items:[
+        'Un conector es un puente digital entre apps',
+        'Ejemplo: IA → Notion → Email → Calendar',
+        'Permiten automatizar procesos repetitivos',
+        'Te ahorran tiempo y reducen errores'
+      ]
+    },
+    {
+      title:'Ejemplos prácticos',
+      main:'Flujos simples que transforman tu productividad.',
+      examples:[
+        {label:'Análisis → Informe',desc:'IA analiza datos → genera informe en PDF'},
+        {label:'Idea → Contenido',desc:'IA genera ideas → escribe posts para redes'},
+        {label:'Email → Tarea',desc:'IA lee emails → crea tareas en tu app'},
+        {label:'Texto → Visual',desc:'IA genera texto → crea imagen con DALL-E'}
+      ]
+    },
+    {
+      title:'Actividad propuesta',
+      main:'Dibuja un flujo de trabajo que podrías automatizar con IA.',
+      activity:'Identifica una tarea repetitiva y piensa cómo 3 herramientas podrían conectarla.',
+      reflection:'¿Qué flujo te generaría más ahorro de tiempo?',
+      learning:'Comprenderás el valor de conectar, no solo de usar una herramienta.'
+    }
+  ]
+});
+
+// ===================== CLASS 7 =====================
+slides.push({
+  type:'class',
+  title:'Clase 7',
+  name:'MCP: Protocolo de conexión',
+  color:'var(--c7)',
+  slides:[
+    {
+      title:'MCP: Model Context Protocol',
+      main:'MCP es un estándar que permite que diferentes modelos y herramientas se comuniquen de forma segura y estandarizada.',
+      items:[
+        'Es un protocolo abierto, no cerrado',
+        'Permite que un modelo acceda a datos externos',
+        'Reduce la fragmentación entre herramientas',
+        'Es como "USB para IA": conecta cualquier cosa'
+      ]
+    },
+    {
+      title:'¿Por qué importa MCP?',
+      main:'Sin un protocolo estándar, cada herramienta crea su propio ecosistema aislado.',
+      examples:[
+        {label:'Sin MCP',desc:'Cada app crea su propia API → silos → complejidad'},
+        {label:'Con MCP',desc:'Un protocolo común → interoperabilidad → simplicidad'},
+        {label:'Beneficio',desc:'Menos fricción, más creatividad, más posibilidades'}
+      ]
+    },
+    {
+      title:'Actividad propuesta',
+      main:'Investiga un proyecto que use MCP y analiza su arquitectura.',
+      activity:'Busca un ejemplo de MCP en acción y describe cómo conecta modelos con herramientas.',
+      reflection:'¿Cómo cree que MCP cambiará el futuro de las herramientas IA?',
+      learning:'Comprenderás la importancia de los estándares en tecnología.'
+    }
+  ]
+});
+
+// ===================== CLASS 8 =====================
+slides.push({
+  type:'class',
+  title:'Clase 8',
+  name:'Agentes IA',
+  color:'var(--c8)',
+  slides:[
+    {
+      title:'Agentes: IA que actúa por sí misma',
+      main:'Un agente es un sistema que puede tomar decisiones, usar herramientas y realizar tareas complejas sin intervención constante.',
+      items:[
+        'Un agente no solo responde — decide qué hacer',
+        'Puede usar múltiples herramientas en secuencia',
+        'Ejemplo: investigar un tema → resumir → escribir un email → programar una reunión',
+        'Son el paso siguiente tras los chatbots'
+      ]
+    },
+    {
+      title:'Tipos de agentes',
+      main:'No todos los agentes son iguales. Cada uno tiene un nivel de autonomía.',
+      examples:[
+        {label:'Asistente simple',desc:'Responde preguntas y da recomendaciones'},
+        {label:'Asistente con herramientas',desc:'Usa APIs y busca información en tiempo real'},
+        {label:'Agente autónomo',desc:'Planifica, ejecuta y evalúa resultados por sí mismo'},
+        {label:'Agente colaborativo',desc:'Trabaja con otros agentes y humanos en equipo'}
+      ]
+    },
+    {
+      title:'Actividad propuesta',
+      main:'Diseña un flujo que un agente podría automatizar completamente.',
+      activity:'Describe paso a paso qué haría un agente para gestionar la planificación de un evento.',
+      reflection:'¿Dónde necesitaría intervención humana? ¿Dónde podría funcionar solo?',
+      learning:'Comprenderás los límites y las posibilidades reales de los agentes.'
+    }
+  ]
+});
+
+// ===================== CLASS 9 =====================
+slides.push({
+  type:'class',
+  title:'Clase 9',
+  name:'Proyecto final',
+  color:'var(--c9)',
+  slides:[
+    {
+      title:'Proyecto final integrado',
+      main:'Aplica todo lo aprendido en un proyecto real que resuelva una necesidad auténtica.',
+      items:[
+        'Elige un problema real tuyo o de tu equipo',
+        'Diseña un flujo que involucre IA + herramientas',
+        'Implementa el flujo y evalúa los resultados',
+        'Comparte tu experiencia con el grupo'
+      ]
+    },
+    {
+      title:'Ejemplos de proyectos',
+      main:'Inspiración para proyectos que transforman tu flujo de trabajo.',
+      examples:[
+        {label:'Asistente de investigación',desc:'IA busca, resume y organiza información sobre un tema'},
+        {label:'Flujo de contenido',desc:'Generar, editar, programar y publicar contenido automáticamente'},
+        {label:'Análisis de datos',desc:'IA procesa datos de ventas → genera informes → sugiere acciones'},
+        {label:'Organizador personal',desc:'IA clasifica emails, agenda reuniones y prioriza tareas'}
+      ]
+    },
+    {
+      title:'Presentación y reflexión',
+      main:'Comparte tu proyecto y reflexiona sobre el viaje de aprendizaje.',
+      activity:'Presenta tu flujo de trabajo con IA ante el grupo.',
+      reflection:'¿Qué aprendiste sobre ti mismo como usuario de IA?',
+      learning:'Cierres el ciclo con una experiencia práctica y compartida.'
+    }
+  ]
+});
+
+// ===================== CIERRE =====================
+slides.push({
+  type:'closing',
+  render(){
+    return `<div class="slide cover-slide stagger-children">
+      <div class="slide-inner" style="text-align:center">
+        <div class="animate-in delay-1" style="font-size:3rem;margin-bottom:20px">🌟</div>
+        <h1 class="animate-in delay-2" style="max-width:600px;margin-left:auto;margin-right:auto">El futuro del trabajo<br>se construye hoy</h1>
+        <p class="subtitle cover-sub animate-in delay-3">No se trata de reemplazar al ser humano, sino de potenciarlo. La IA es una herramienta, y tú decides cómo usarla.</p>
+        <div class="animate-in delay-4" style="margin-top:32px">
+          <span class="tag" style="background:var(--ink);color:white;padding:12px 28px;font-size:.9rem;border-radius:30px">Sigue explorando · Sigue aprendiendo · Sigue creando</span>
+        </div>
+      </div>
+      <div class="shape shape-circle" style="width:300px;height:300px;background:var(--c5);top:10%;right:10%;opacity:.07"></div>
+      <div class="shape shape-circle" style="width:200px;height:200px;background:var(--c9);bottom:15%;left:5%;opacity:.07"></div>
+    </div>`;
+  }
+});
+
+// ===================== BUILD SLIDES =====================
+const generatedSlides = [];
+slides.forEach((s)=>{
+  if(s.type==='class'){
+    const c = s.color;
+    const num = s.title.replace('Clase ','');
+    // Slide 1 of class — CONCEPTO (big number backdrop + list)
+    generatedSlides.push({render() {
+      const cl = s.slides[0];
+      return `<div class="slide stagger-children">
+        <div class="slide-inner">
+          <div class="animate-in delay-1">
+            <div class="class-header">
+              <div class="class-badge" style="background:${c}">${num}</div>
+              <div>
+                <div class="section-label" style="color:${c}">${s.title}</div>
+                <h2>${cl.title}</h2>
+              </div>
+            </div>
+          </div>
+          <div class="card animate-in delay-2" style="margin-bottom:20px;border-left:4px solid ${c}">
+            <p class="body-text" style="font-size:1.02rem;line-height:1.7">${cl.main}</p>
+          </div>
+          <ul class="styled-list animate-in delay-3">
+            ${cl.items.map((it,idx)=>`<li><span class="list-dot" style="background:${c}"></span> ${it}</li>`).join('')}
+          </ul>
+        </div>
+        <div class="shape shape-num" style="color:${c}">${num}</div>
+        <div class="shape shape-circle" style="width:180px;height:180px;background:${c};bottom:-40px;right:40px;opacity:.08"></div>
+      </div>`;
+    }});
+    // Slide 2 of class — EJEMPLOS (numbered rows, not identical cards)
+    generatedSlides.push({render() {
+      const cl = s.slides[1];
+      return `<div class="slide stagger-children">
+        <div class="slide-inner">
+          <div class="animate-in delay-1">
+            <div class="class-header">
+              <div class="class-badge" style="background:${c}">${num}</div>
+              <div>
+                <div class="section-label" style="color:${c}">${s.title}</div>
+                <h2>${cl.title}</h2>
+              </div>
+            </div>
+          </div>
+          <div class="card animate-in delay-2" style="margin-bottom:18px">
+            <p class="body-text" style="font-size:1.02rem;line-height:1.7">${cl.main}</p>
+          </div>
+          <div class="example-rows animate-in delay-3">
+            ${cl.examples.map((ex,idx)=>`
+              <div class="example-row">
+                <div class="example-num" style="background:${c}">${idx+1}</div>
+                <div class="example-body">
+                  <div class="card-title" style="font-size:.9rem;margin-bottom:2px">${ex.label}</div>
+                  <p class="body-text" style="font-size:.88rem">${ex.desc}</p>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        <div class="shape shape-circle" style="width:160px;height:160px;background:${c};top:15%;left:60px;opacity:.06"></div>
+      </div>`;
+    }});
+    // Slide 3 of class — ACTIVIDAD (numbered step cards)
+    generatedSlides.push({render() {
+      const cl = s.slides[2];
+      return `<div class="slide stagger-children">
+        <div class="slide-inner">
+          <div class="animate-in delay-1">
+            <div class="class-header">
+              <div class="class-badge" style="background:${c}">${num}</div>
+              <div>
+                <div class="section-label" style="color:${c}">${s.title}</div>
+                <h2>${cl.title}</h2>
+              </div>
+            </div>
+          </div>
+          <div class="activity-card animate-in delay-2">
+            <div class="step-num" style="background:${c};margin-bottom:10px">1</div>
+            <h3>📝 Actividad</h3>
+            <p class="body-text" style="color:rgba(255,255,255,.82);margin-top:8px">${cl.activity}</p>
+          </div>
+          <div class="reflection-card animate-in delay-3" style="border-color:${c};margin-top:16px;background:rgba(255,190,11,.06)">
+            <div class="step-num" style="background:${c};margin-bottom:10px">2</div>
+            <h3 style="color:${c};font-size:.95rem">💭 Reflexión</h3>
+            <p class="body-text" style="font-size:.9rem;margin-top:6px">${cl.reflection}</p>
+          </div>
+          <div class="card animate-in delay-4" style="margin-top:16px;border-left:4px solid ${c}">
+            <div class="step-num" style="background:${c};margin-bottom:10px">3</div>
+            <h3 style="color:${c};font-size:.95rem">🎓 Aprendizaje esperado</h3>
+            <p class="body-text" style="font-size:.9rem;margin-top:6px">${cl.learning}</p>
+          </div>
+        </div>
+        <div class="shape shape-circle" style="width:150px;height:150px;background:${c};bottom:20px;right:30px;opacity:.07"></div>
+      </div>`;
+    }});
+  }
+});
+const renderSlides = slides.filter(s => s.type !== 'class');
+renderSlides.push(...generatedSlides);
+
+// ===================== RENDER ENGINE =====================
+let currentSlide = 0;
+const totalSlides = renderSlides.length;
+const container = document.getElementById('slideContainer');
+const progressFill = document.getElementById('progressFill');
+const slideNum = document.getElementById('slideNum');
+const btnPrev = document.getElementById('btnPrev');
+const btnNext = document.getElementById('btnNext');
+
+// Build all slide elements
+renderSlides.forEach((s) => {
+  const wrapper = document.createElement('div');
+  wrapper.innerHTML = s.render();
+  const slideEl = wrapper.firstElementChild;
+  if (slideEl) container.appendChild(slideEl);
+});
+
+const slideElements = container.querySelectorAll('.slide');
+
+function updateSlide(index) {
+  slideElements.forEach((el, i) => {
+    el.classList.remove('active', 'exit');
+    if (i === index) {
+      el.classList.add('active');
+      // Trigger animations
+      setTimeout(() => {
+        el.querySelectorAll('.animate-in').forEach(a => {
+          a.classList.add('visible');
+        });
+      }, 50);
+    } else if (i < index) {
+      el.classList.add('exit');
+    }
+  });
+
+  progressFill.style.width = ((index + 1) / totalSlides * 100) + '%';
+  slideNum.textContent = String(index + 1).padStart(2, '0') + ' / ' + String(totalSlides).padStart(2, '0');
+
+  btnPrev.style.opacity = index === 0 ? '0.3' : '1';
+  btnNext.style.opacity = index === totalSlides - 1 ? '0.3' : '1';
+  btnPrev.style.cursor = index === 0 ? 'not-allowed' : 'pointer';
+  btnNext.style.cursor = index === totalSlides - 1 ? 'not-allowed' : 'pointer';
+}
+
+function nextSlide() {
+  if (currentSlide < totalSlides - 1) {
+    slideElements[currentSlide].classList.remove('active');
+    slideElements[currentSlide].querySelectorAll('.animate-in').forEach(a => a.classList.remove('visible'));
+    currentSlide++;
+    updateSlide(currentSlide);
+  }
+}
+
+function prevSlide() {
+  if (currentSlide > 0) {
+    slideElements[currentSlide].classList.remove('active');
+    slideElements[currentSlide].querySelectorAll('.animate-in').forEach(a => a.classList.remove('visible'));
+    currentSlide--;
+    updateSlide(currentSlide);
+  }
+}
+
+btnNext.addEventListener('click', nextSlide);
+btnPrev.addEventListener('click', prevSlide);
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+  if (e.key === 'ArrowLeft') prevSlide();
+});
+
+// Touch support
+let touchStartX = 0;
+let touchStartY = 0;
+document.addEventListener('touchstart', e => {
+  touchStartX = e.touches[0].clientX;
+  touchStartY = e.touches[0].clientY;
+});
+document.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  const dy = e.changedTouches[0].clientY - touchStartY;
+  if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
+    if (dx < 0) nextSlide();
+    else prevSlide();
+  }
+});
+
+// Initialize
+updateSlide(0);
+
+</script>
+</body>
+</html>
