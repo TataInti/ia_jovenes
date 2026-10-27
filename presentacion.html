@@ -977,33 +977,75 @@ slides.push({
 slides.push({
   type:'class',
   title:'Clase 3',
-  name:'Contexto e instrucciones',
+  name:'La utilizo para aprender',
   color:'var(--c3)',
   slides:[
     {
-      title:'El poder del contexto',
-      main:'La IA no sabe lo que tú sabes. El contexto le da el marco para entender mejor.',
+      title:'La misión de hoy: un emprendimiento en 30 minutos',
+      main:'Vamos a trabajar como lo haría un equipo real: un cliente te pide arrancar un emprendimiento y tenés que producir una propuesta concreta usando IA (gratis, en el navegador). No se trata de "aprender a aprender": se trata de lograr algo.',
       items:[
-        'El contexto define el "por qué" detrás de tu pregunta',
-        'Puede incluir: audiencia, objetivo, restricciones',
-        'Cuanto más contexto, más precisa la respuesta',
-        'Es como dar instrucciones a un colega nuevo'
+        'Una meta visible: nombre, propuesta de valor, post y plan de 3 pasos',
+        'La IA es tu herramienta, no tu jefe: vos decidís, ella acelera',
+        'Trabajo en equipos, cada uno con su rubro',
+        'Al final, presentamos en 1 minuto qué hicimos y qué decidimos'
       ]
     },
     {
-      title:'Ejemplo práctico',
-      main:'Comparación de cómo el contexto transforma una respuesta.',
+      title:'El brief',
+      main:'Cada equipo recibe un emprendimiento distinto y tiene que entregar 4 productos con la IA como aliada.',
       examples:[
-        {label:'Sin contexto',desc:'"Escribe sobre el futuro del trabajo" → respuesta genérica'},
-        {label:'Con contexto',desc:'"Escribe un artículo breve sobre el futuro del trabajo para emprendedores que quieren usar IA, en tono inspirador" → respuesta dirigida'}
+        {label:'El issue',desc:'Lanzás un emprendimiento (cafetería de especialidad, marca de ropa, app, servicio). El cliente no te da más que una idea.'},
+        {label:'Un nombre y propuesta de valor',desc:'En 1-2 líneas: ¿qué es y por qué alguien lo elegiría?'},
+        {label:'Un post de redes',desc:'Para presentarlo en Instagram o LinkedIn en menos de 10 líneas.'},
+        {label:'Un plan de 3 pasos',desc:'Para abrir o lanzar en 30 días, accionable.'},
+        {label:'Un chequeo',desc:'Detectar una idea "sospechosa" que la IA tiró y que habría que verificar.'}
       ]
     },
     {
-      title:'Actividad propuesta',
-      main:'Toma una respuesta genérica y enriquece el prompt con contexto.',
-      activity:'Pide a la IA que genere un plan de estudio, primero sin contexto y luego con contexto detallado.',
-      reflection:'¿Cómo cambia la calidad entre ambas respuestas?',
-      learning:'Desarrollarás sensibilidad para el nivel de detalle necesario.'
+      title:'El flujo de trabajo con IA',
+      main:'Este es el mismo ciclo de la Clase 2, ahora aplicado a una tarea real. No es "preguntar y copiar": es un diálogo.',
+      items:[
+        'Dar contexto: rubro, público, tono que buscás',
+        'Pedir: un primer borrador bien definido',
+        'Revisar: ¿te sirve? ¿suena genérico? ¿qué falta?',
+        'Pedir cambios concretos: "achicá a 3 opciones", "cambiá el tono"',
+        'Decidir y cerrar: el resultado final es tuyo, no de la IA'
+      ]
+    },
+    {
+      title:'Contexto que marca la diferencia',
+      main:'Mostremos el mismo pedido con y sin contexto. Este es el corazón de la clase: aprender a darle a la IA la información que necesita.',
+      examples:[
+        {label:'Sin contexto',desc:'"Dame 3 nombres para un emprendimiento" → genéricos, aburridos, cliché ("Café Aurora")'},
+        {label:'Con contexto',desc:'"Dame 3 nombres para una cafetería de especialidad, en Rosario, público entre 25 y 35, con onda industrial y no usar Auror" → enfocados'},
+        {label:'Por qué importa',desc:'La IA no lee tu mente. Cada dato que agregás le quita un libre albedrío y le suma dirección.'}
+      ]
+    },
+    {
+      title:'Fluidez vs. verdad',
+      main:'La IA suena convincente aunque una idea no tenga sustento. Escribir bien no es lo mismo que tener razón.',
+      items:[
+        'Una respuesta pulida puede estar mal: no confundas fluidez con verdad',
+        'Alucinaciones: datos, nombres o libros que no existen, presentados con confianza',
+        'En el brief hay trampas: números "redondeados", costos inventados, "estudios" sin fuente',
+        'Tu trabajo como profesional es detectar qué no comprar sin chequear'
+      ]
+    },
+    {
+      title:'Verificar en 3 pasos',
+      main:'Antes de dar por buena cualquier respuesta de la IA, aplicá este chequeo. Es la diferencia entre usar IA y creer a ciegas.',
+      examples:[
+        {label:'Paso 1 · Contrastar',desc:'Cruzalo con una fuente o tu propio conocimiento. ¿Tiene sustento o es un "te suena bien"?'},
+        {label:'Paso 2 · Chequear lo verificable',desc:'Números, fechas, nombres, procedimientos. Todo lo que se pueda comprobar, comprobalo.'},
+        {label:'Paso 3 · Sospechar de lo pulido',desc:'Si suena perfecto y redondeado, preguntate qué hay detrás. Los datos perfectos suelen ser inventados.'}
+      ]
+    },
+    {
+      title:'Actividad: puesta en común y cierre',
+      main:'Presentamos y debatimos. El aprendizaje se completa cuando compartimos qué decidimos y por qué.',
+      activity:'Cada equipo presenta en 1 minuto: el nombre elegido, el post y la idea "sospechosa" que detectó y cómo la revisaría. El resto hace preguntas y da una sugerencia concreta.',
+      reflection:'¿Cómo decidiste qué nombres descartar? ¿Qué pista te hizo dudar de una idea de la IA? ¿Qué parte fue tuya y qué parte del asistente?',
+      learning:'Sabrás usar la IA para avanzar rápido en una tarea real y a la vez detectar qué merece verificación antes de decidir.'
     }
   ]
 });
@@ -1251,101 +1293,126 @@ slides.push({
 });
 
 // ===================== BUILD SLIDES =====================
+// Cada entrada de `s.slides` se convierte en una diapositiva.
+// La plantilla se elige según el contenido de la entrada:
+//   - con `examples`  → filas numeradas de ejemplos
+//   - con `activity`  → tarjetas de actividad + reflexión + aprendizaje
+//   - con `items`     → lista de conceptos (o pizarra grande con número)
+//   - resto           → tarjeta simple de contenido
 const generatedSlides = [];
 slides.forEach((s)=>{
   if(s.type==='class'){
     const c = s.color;
     const num = s.title.replace('Clase ','');
-    // Slide 1 of class — CONCEPTO (big number backdrop + list)
-    generatedSlides.push({render() {
-      const cl = s.slides[0];
-      return `<div class="slide stagger-children">
-        <div class="slide-inner">
-          <div class="animate-in delay-1">
-            <div class="class-header">
-              <div class="class-badge" style="background:${c}">${num}</div>
-              <div>
-                <div class="section-label" style="color:${c}">${s.title}</div>
-                <h2>${cl.title}</h2>
-              </div>
-            </div>
-          </div>
-          <div class="card animate-in delay-2" style="margin-bottom:20px;border-left:4px solid ${c}">
-            <p class="body-text" style="font-size:1.02rem;line-height:1.7">${cl.main}</p>
-          </div>
-          <ul class="styled-list animate-in delay-3">
-            ${cl.items.map((it,idx)=>`<li><span class="list-dot" style="background:${c}"></span> ${it}</li>`).join('')}
-          </ul>
+
+    s.slides.forEach((cl)=>{
+      const header = `<div class="class-header">
+        <div class="class-badge" style="background:${c}">${num}</div>
+        <div>
+          <div class="section-label" style="color:${c}">${s.title}</div>
+          <h2>${cl.title}</h2>
         </div>
-        <div class="shape shape-num" style="color:${c}">${num}</div>
-        <div class="shape shape-circle" style="width:180px;height:180px;background:${c};bottom:-40px;right:40px;opacity:.08"></div>
       </div>`;
-    }});
-    // Slide 2 of class — EJEMPLOS (numbered rows, not identical cards)
-    generatedSlides.push({render() {
-      const cl = s.slides[1];
-      return `<div class="slide stagger-children">
-        <div class="slide-inner">
-          <div class="animate-in delay-1">
-            <div class="class-header">
-              <div class="class-badge" style="background:${c}">${num}</div>
-              <div>
-                <div class="section-label" style="color:${c}">${s.title}</div>
-                <h2>${cl.title}</h2>
+
+      // --- TARJETA DE ACTIVIDAD (con reflexión y aprendizaje) ---
+      if(cl.activity !== undefined){
+        generatedSlides.push({render() {
+          return `<div class="slide stagger-children">
+            <div class="slide-inner">
+              <div class="animate-in delay-1">${header}</div>
+              <div class="activity-card animate-in delay-2">
+                <div class="step-num" style="background:${c};margin-bottom:10px">1</div>
+                <h3>📝 Actividad</h3>
+                <p class="body-text" style="color:rgba(255,255,255,.82);margin-top:8px">${cl.activity}</p>
+              </div>
+              <div class="reflection-card animate-in delay-3" style="border-color:${c};margin-top:16px;background:rgba(255,190,11,.06)">
+                <div class="step-num" style="background:${c};margin-bottom:10px">2</div>
+                <h3 style="color:${c};font-size:.95rem">💭 Reflexión</h3>
+                <p class="body-text" style="font-size:.9rem;margin-top:6px">${cl.reflection}</p>
+              </div>
+              <div class="card animate-in delay-4" style="margin-top:16px;border-left:4px solid ${c}">
+                <div class="step-num" style="background:${c};margin-bottom:10px">3</div>
+                <h3 style="color:${c};font-size:.95rem">🎓 Aprendizaje esperado</h3>
+                <p class="body-text" style="font-size:.9rem;margin-top:6px">${cl.learning}</p>
               </div>
             </div>
-          </div>
-          <div class="card animate-in delay-2" style="margin-bottom:18px">
-            <p class="body-text" style="font-size:1.02rem;line-height:1.7">${cl.main}</p>
-          </div>
-          <div class="example-rows animate-in delay-3">
-            ${cl.examples.map((ex,idx)=>`
-              <div class="example-row">
-                <div class="example-num" style="background:${c}">${idx+1}</div>
-                <div class="example-body">
-                  <div class="card-title" style="font-size:.9rem;margin-bottom:2px">${ex.label}</div>
-                  <p class="body-text" style="font-size:.88rem">${ex.desc}</p>
+            <div class="shape shape-circle" style="width:150px;height:150px;background:${c};bottom:20px;right:30px;opacity:.07"></div>
+          </div>`;
+        }});
+        return;
+      }
+
+      // --- FILAS DE EJEMPLOS ---
+      if(cl.examples !== undefined){
+        generatedSlides.push({render() {
+          return `<div class="slide stagger-children">
+            <div class="slide-inner">
+              <div class="animate-in delay-1">${header}</div>
+              <div class="card animate-in delay-2" style="margin-bottom:18px">
+                <p class="body-text" style="font-size:1.02rem;line-height:1.7">${cl.main}</p>
+              </div>
+              <div class="example-rows animate-in delay-3">
+                ${cl.examples.map((ex,idx)=>`
+                  <div class="example-row">
+                    <div class="example-num" style="background:${c}">${idx+1}</div>
+                    <div class="example-body">
+                      <div class="card-title" style="font-size:.9rem;margin-bottom:2px">${ex.label}</div>
+                      <p class="body-text" style="font-size:.88rem">${ex.desc}</p>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+            <div class="shape shape-circle" style="width:160px;height:160px;background:${c};top:15%;left:60px;opacity:.06"></div>
+          </div>`;
+        }});
+        return;
+      }
+
+      // --- LISTA DE CONCEPTOS / PIZARRA ---
+      if(cl.items !== undefined){
+        generatedSlides.push({render() {
+          return `<div class="slide stagger-children">
+            <div class="slide-inner">
+              <div class="animate-in delay-1">${header}</div>
+              <div class="card animate-in delay-2" style="margin-bottom:20px;border-left:4px solid ${c}">
+                <p class="body-text" style="font-size:1.02rem;line-height:1.7">${cl.main}</p>
+              </div>
+              <ul class="styled-list animate-in delay-3">
+                ${cl.items.map((it)=>`<li><span class="list-dot" style="background:${c}"></span> ${it}</li>`).join('')}
+              </ul>
+            </div>
+            <div class="shape shape-num" style="color:${c}">${num}</div>
+            <div class="shape shape-circle" style="width:180px;height:180px;background:${c};bottom:-40px;right:40px;opacity:.08"></div>
+          </div>`;
+        }});
+        return;
+      }
+
+      // --- TARJETA GENERAL (contenido libre en main) ---
+      generatedSlides.push({render() {
+        return `<div class="slide stagger-children">
+          <div class="slide-inner">
+            <div class="animate-in delay-1">${header}</div>
+            <div class="card animate-in delay-2" style="margin-bottom:18px;border-left:4px solid ${c}">
+              <p class="body-text" style="font-size:1.05rem;line-height:1.7">${cl.main}</p>
+            </div>
+            ${cl.extra && cl.extra.length ? `<div class="example-rows animate-in delay-3">
+              ${cl.extra.map((ex,idx)=>`
+                <div class="example-row">
+                  <div class="example-num" style="background:${c}">${idx+1}</div>
+                  <div class="example-body">
+                    <div class="card-title" style="font-size:.9rem;margin-bottom:2px">${ex.label}</div>
+                    <p class="body-text" style="font-size:.88rem">${ex.desc}</p>
+                  </div>
                 </div>
-              </div>
-            `).join('')}
+              `).join('')}
+            </div>` : ''}
           </div>
-        </div>
-        <div class="shape shape-circle" style="width:160px;height:160px;background:${c};top:15%;left:60px;opacity:.06"></div>
-      </div>`;
-    }});
-    // Slide 3 of class — ACTIVIDAD (numbered step cards)
-    generatedSlides.push({render() {
-      const cl = s.slides[2];
-      return `<div class="slide stagger-children">
-        <div class="slide-inner">
-          <div class="animate-in delay-1">
-            <div class="class-header">
-              <div class="class-badge" style="background:${c}">${num}</div>
-              <div>
-                <div class="section-label" style="color:${c}">${s.title}</div>
-                <h2>${cl.title}</h2>
-              </div>
-            </div>
-          </div>
-          <div class="activity-card animate-in delay-2">
-            <div class="step-num" style="background:${c};margin-bottom:10px">1</div>
-            <h3>📝 Actividad</h3>
-            <p class="body-text" style="color:rgba(255,255,255,.82);margin-top:8px">${cl.activity}</p>
-          </div>
-          <div class="reflection-card animate-in delay-3" style="border-color:${c};margin-top:16px;background:rgba(255,190,11,.06)">
-            <div class="step-num" style="background:${c};margin-bottom:10px">2</div>
-            <h3 style="color:${c};font-size:.95rem">💭 Reflexión</h3>
-            <p class="body-text" style="font-size:.9rem;margin-top:6px">${cl.reflection}</p>
-          </div>
-          <div class="card animate-in delay-4" style="margin-top:16px;border-left:4px solid ${c}">
-            <div class="step-num" style="background:${c};margin-bottom:10px">3</div>
-            <h3 style="color:${c};font-size:.95rem">🎓 Aprendizaje esperado</h3>
-            <p class="body-text" style="font-size:.9rem;margin-top:6px">${cl.learning}</p>
-          </div>
-        </div>
-        <div class="shape shape-circle" style="width:150px;height:150px;background:${c};bottom:20px;right:30px;opacity:.07"></div>
-      </div>`;
-    }});
+          <div class="shape shape-circle" style="width:180px;height:180px;background:${c};bottom:-40px;right:40px;opacity:.08"></div>
+        </div>`;
+      }});
+    });
   }
 });
 const renderSlides = slides.filter(s => s.type !== 'class');
