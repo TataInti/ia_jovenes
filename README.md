@@ -32,6 +32,7 @@ La IA se aborda como una herramienta de trabajo: sus resultados requieren revisi
 ## Materiales del curso
 
 - [Presentación general](presentacion.html)
-- [Taller de ingeniería de prompts](clase2_prompt_engineering_taller.ipynb)
+- [Taller de ingeniería de prompts](Taller%20Prompting%20-%20Clase%202.ipynb)
+- [Guía de trabajo · Clase 3: Proyectos de ChatGPT](lineamientos/guia-clase-3-proyectos-chatgpt.md)
 
 Los materiales de cada clase se incorporarán a esta página a medida que estén disponibles.
