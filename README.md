@@ -34,5 +34,8 @@ La IA se aborda como una herramienta de trabajo: sus resultados requieren revisi
 - [Presentación general](presentacion.html)
 - [Taller de ingeniería de prompts](Taller%20Prompting%20-%20Clase%202.ipynb)
 - [Guía de trabajo · Clase 3: Proyectos de ChatGPT](lineamientos/guia-clase-3-proyectos-chatgpt.md)
+- [Clase 4 · Crear con ChatGPT: skills, imágenes y conectores](Clase%204%20-%20Taller%20Crear%20con%20Skills%20y%20conectores.md)
+- [Clase 4 alternativa · Presentá un servicio que podrías ofrecer](Clase%204%20-%20Alternativa%20Presenta%20un%20servicio.md)
+- [Cuaderno para Colab · Presentá un servicio](Clase%204%20alternativa%20-%20Presenta%20un%20servicio.ipynb)
 
 Los materiales de cada clase se incorporarán a esta página a medida que estén disponibles.
