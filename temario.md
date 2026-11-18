@@ -13,7 +13,7 @@ El curso propone usar la IA para aprender, crear y resolver situaciones de traba
 | 3 | Uso la IA para aprender | Investigar un tema y explicarlo en equipo. |
 | 4 | Uso la IA para crear | Desarrollar y revisar una propuesta de comunicación. |
 | 5 | Diseñamos un festival con datos | Analizar preferencias y decidir la programación de un festival juvenil. |
-| 6 | Mi futuro laboral con IA | Preparar una postulación para una oportunidad elegida. |
+| 6 | IA en el trabajo | Investigar herramientas según una profesión y presentar una integración responsable. |
 | 7 | ¿Lo publico o no? | Resolver un dilema sobre IA, imágenes y privacidad desde distintos puntos de vista. |
 | 8 | De una idea a un prototipo | Construir y probar una solución pequeña con IA. |
 | 9 | Feria de soluciones | Presentar, probar y mejorar los prototipos. |
@@ -39,22 +39,22 @@ Las primeras clases presentaron la IA y sus aplicaciones, el trabajo con instruc
 - **Puesta en común · 20 min:** comparar decisiones y explicar por qué pueden ser distintas ante los mismos datos.
 - **Cierre · 10 min:** volver a la pregunta inicial y escribir qué información adicional pediría cada persona.
 
-## Clase 6 · Mi futuro laboral con IA
+## Clase 6 · IA en el trabajo
 
-**Pregunta de apertura:** ¿Qué le mostrarías a alguien que te quiere contratar si todavía no tenés experiencia laboral formal?
+**Pregunta de apertura:** Si mañana empezaras una práctica profesional en tu área, ¿qué tarea investigarías para decidir si una herramienta de IA puede ayudarte sin reemplazar tu criterio?
 
-**Objetivo:** reconocer habilidades y experiencias transferibles y usar la IA para preparar una postulación fiel a la propia trayectoria.
+**Objetivo:** investigar herramientas de IA disponibles para una profesión o rol y preparar una presentación sobre una integración posible, con fuentes oficiales, revisión humana, cuidado de datos y una forma de comprobar si funciona.
 
-**Conceptos clave:** transformación de tareas y ocupaciones; habilidades técnicas y sociales; experiencia transferible; presentación profesional y privacidad. Las predicciones sobre el empleo son escenarios posibles, no certezas individuales.
+**Conceptos clave:** profesión, rol y tarea; herramienta, modelo e integración; asistir y automatizar; fuente oficial y prueba propia; datos personales y confidenciales; riesgo, control y supervisión humana.
 
 **Secuencia (120 minutos):**
 
-- **Apertura · 10 min:** compartir respuestas a la pregunta y reconocer experiencias de estudio, proyectos o actividades comunitarias.
-- **Conceptos · 20 min:** analizar cómo una tarea laboral puede cambiar al incorporar IA y qué decisiones siguen requiriendo personas.
-- **Demostración docente · 20 min:** usar un perfil y un aviso ficticios para pedir una presentación breve; detectar habilidades inventadas y mejorar el texto con información comprobable.
-- **Desafío grupal · 40 min:** elegir un aviso ficticio, relacionar sus requisitos con un perfil ficticio y preparar una breve presentación y dos respuestas de entrevista. Otro integrante hace de entrevistador. Entregar la postulación y marcar qué información hubo que verificar. ¿Qué habilidad eligieron destacar y por qué? ¿Qué afirmación no podían sostener?
-- **Puesta en común · 20 min:** compartir estrategias de presentación y debatir qué datos personales conviene reservar.
-- **Cierre · 10 min:** volver a la pregunta inicial y anotar una experiencia o habilidad propia que cada persona podría desarrollar o comunicar.
+- **Introducción · 10 min:** presentar la incorporación de la IA al trabajo y la idea de un stack de herramientas según la profesión.
+- **Conceptos · 15 min:** pasar de una profesión amplia a una tarea concreta con entrada, salida y criterio de calidad.
+- **Demostración docente · 20 min:** investigar un caso ficticio de comunicación cultural, comparar candidatas con fuentes oficiales y diseñar una integración mínima.
+- **Actividad principal · 45 min:** elegir una profesión, investigar tres herramientas y preparar una presentación sobre una integración posible.
+- **Presentaciones · 20 min:** exponer las propuestas, justificar la elección y debatir qué falta verificar.
+- **Cierre · 10 min:** volver a la pregunta inicial y registrar un criterio para elegir e integrar IA en el trabajo.
 
 ## Clase 7 · ¿Lo publico o no?
 
